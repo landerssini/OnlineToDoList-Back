@@ -28,10 +28,7 @@ dbConnection().then(async function onServerInit() {
 })
 
 app.get('/ping', (req, res) => {
-    return res.status(200).json({
-        ok: true,
-        list
-    })
+    res.send('Pong!');
   });
 
 app.get("/getPublicList", async (req, res) => {
