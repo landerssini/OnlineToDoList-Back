@@ -8,7 +8,13 @@ const app = express();
 const PORT = 5174;
 
 app.use(bodyParser.json())
-app.use(cors())
+
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'listid'],
+}));
+
 dotenv.config()
 
 dbConnection().then(async function onServerInit() {
