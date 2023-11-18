@@ -27,6 +27,10 @@ dbConnection().then(async function onServerInit() {
     });
 })
 
+app.get('/ping', (req, res) => {
+    res.send('Pong!');
+  });
+
 app.get("/getPublicList", async (req, res) => {
     const { listid } = req.headers
     console.log(req.headers);
