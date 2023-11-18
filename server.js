@@ -4,6 +4,8 @@ import cors from "cors"
 import bodyParser from 'body-parser';
 import { ListModel } from './ListModel.js';
 import dotenv from 'dotenv';
+import { generarCombinacionAleatoria } from './functions.js';
+
 const app = express();
 const PORT = 5174;
 

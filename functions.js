@@ -1,4 +1,4 @@
-function generarCombinacionAleatoria() {
+export const generarCombinacionAleatoria = () => {
     var caracteres = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
     var combinacion = '';
 
