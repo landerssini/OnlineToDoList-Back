@@ -29,11 +29,10 @@ dbConnection().then(async function onServerInit() {
 
 app.get('/ping', (req, res) => {
     res.send('Pong!');
-  });
+});
 
 app.get("/getPublicList", async (req, res) => {
     const { listid } = req.headers
-    console.log(req.headers);
     const list = await ListModel.findOne({ listId: listid });
     if (!list) {
         return res.status(404).json({
@@ -50,7 +49,6 @@ app.get("/getPublicList", async (req, res) => {
 
 app.post("/addToList", async (req, res) => {
     const { listid, listitem } = req.body.data
-    console.log(req.body);
     const list = await ListModel.findOne({ listId: listid });
     if (!list) {
         return res.status(404).json({
@@ -87,7 +85,6 @@ app.delete("/deleteFromList", async (req, res) => {
 })
 
 app.post("/fromLocalToPublicList", async (req, res) => {
-    console.log(req.body);
 
     const { listItems } = req.body.data
     const newListId = generarCombinacionAleatoria()
@@ -119,3 +116,39 @@ app.get("/deletePublicList", async (req, res) => {
         });
     }
 })
+
+app.post("/changeCompletedTask", async (req, res) => {
+    const { listid, listitemid, completedBoolean } = req.body.data;
+    console.log(listid, listitemid, completedBoolean);
+    try {
+        const list = await ListModel.findOne({ listId: listid });
+
+        if (!list) {
+            return res.status(404).json({
+                ok: false,
+                msg: 'There is no list with this id.'
+            });
+        }
+
+        list.items = list.items.map((item) =>
+            item.id === listitemid ? { ...item, completed: completedBoolean } : item
+        )
+
+        list.items = list.items.sort((a, b) => {
+            if (a.completed && !b.completed) return 1;
+            if (!a.completed && b.completed) return -1;
+            return 0;
+        })
+        await list.save()
+        return res.status(200).json({
+            ok: true,
+            msg: "List updated."
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            ok: false,
+            msg: "Internal Server Error."
+        });
+    }
+});

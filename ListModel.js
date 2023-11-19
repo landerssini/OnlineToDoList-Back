@@ -2,7 +2,11 @@ import mongoose from "mongoose";
 
 const ItemSchema = new mongoose.Schema({
     title: String,
-    id: String
+    id: String,
+    completed: {
+        type: Boolean,
+        default: false
+    }
 }, { _id: false })
 
 const ListSchema = new mongoose.Schema({
