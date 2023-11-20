@@ -118,7 +118,6 @@ app.get("/deletePublicList", async (req, res) => {
 
 app.post("/changeCompletedTask", async (req, res) => {
     const { listid, listitemid, completedBoolean } = req.body.data
-    .log(listid, listitemid, completedBoolean)
     try {
         const list = await ListModel.findOne({ listId: listid })
 
